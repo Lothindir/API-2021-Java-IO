@@ -4,15 +4,15 @@ import ch.heigvd.api.labio.quotes.Quote;
 import ch.heigvd.api.labio.quotes.QuoteClient;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author Olivier Liechti
+ * @author Olivier Liechti, Francesco Monti
  */
 public class Application {
 
@@ -79,6 +79,8 @@ public class Application {
        *  the name "quote-i.utf8" where 'i' is the number of the file.
        */
 
+      storeQuote(quote, "quote-" + i + ".utf8");
+
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
         LOG.info("> " + tag);
@@ -135,6 +137,8 @@ public class Application {
      *   Write the file with encoding UTF-8.
      */
 
+    Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+    writer.write(quote.getQuote());
   }
   
   public void processQuoteFiles() throws IOException {
