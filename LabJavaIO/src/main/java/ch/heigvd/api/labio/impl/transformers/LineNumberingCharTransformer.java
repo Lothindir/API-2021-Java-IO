@@ -14,33 +14,31 @@ import java.util.logging.Logger;
  * 1. This is the first line.\n
  * 2. This is the second line.
  *
- * @author Olivier Liechti, Juergen Ehrensberger
+ * @author Olivier Liechti, Juergen Ehrensberger, Francesco Monti
  */
 public class LineNumberingCharTransformer {
     private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
-    private int lineCounter = 1;
-    private Boolean isFirstLine = true;
+    private int lineCounter = 0;
 
     public String transform(String c) {
         StringBuilder sb = new StringBuilder();
-        if (isFirstLine) {
-            appendNumber(sb);
-            isFirstLine = false;
+        if (lineCounter == 0) {
+            lineCounter++;
+            insertNumber(sb);
         }
         if (!c.equals("\r")) {
             sb.append(c);
         }
 
         if (c.equals("\n")) {
-            appendNumber(sb);
+            insertNumber(sb);
         }
 
         return sb.toString();
     }
 
-    private StringBuilder appendNumber(StringBuilder sb){
+    private void insertNumber(StringBuilder sb){
         sb.append(lineCounter).append(". ");
         lineCounter++;
-        return sb;
     }
 }
