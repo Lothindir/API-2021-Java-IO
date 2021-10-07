@@ -1,7 +1,10 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 
+import javax.sound.sampled.Line;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
@@ -32,7 +35,8 @@ public class FileTransformer {
      *  Later, replace it by a combination of the UpperCaseCharTransformer
      *  and the LineNumberCharTransformer.
      */
-    NoOpCharTransformer transformer = new NoOpCharTransformer();
+    UpperCaseCharTransformer upperCaseTransformer = new UpperCaseCharTransformer();
+    LineNumberingCharTransformer lineNumberingCharTransformer = new LineNumberingCharTransformer();
 
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
@@ -48,7 +52,7 @@ public class FileTransformer {
 
       while(reader.ready()){
         String c = String.valueOf((char)reader.read());
-        c = transformer.transform(c);
+        c = upperCaseTransformer.transform(lineNumberingCharTransformer.transform(c));
         writer.write(c);
       }
 
